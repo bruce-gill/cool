@@ -1166,7 +1166,7 @@ export function ByuCsClasses() {
               <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
                 Programs
               </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2">
+              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   Undergraduate Programs
                 </a>
@@ -1183,7 +1183,7 @@ export function ByuCsClasses() {
               <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
                 Classes & Emphases
               </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2">
+              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   Classes
                 </a>
@@ -1196,7 +1196,7 @@ export function ByuCsClasses() {
               <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
                 Faculty & Research
               </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2">
+              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
                 <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   Faculty
                 </a>
