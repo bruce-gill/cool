@@ -1156,14 +1156,10 @@ export function ByuCsClasses() {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <header className="px-4 lg:px-6 h-14 flex items-center">
-          <a href="#" className="flex items-center justify-center">
-            <BookOpen className="h-6 w-6" />
-            <span className="sr-only">BYU CS Department</span>
-          </a>
-          <nav className="ml-auto flex gap-4 sm:gap-6">
-            <div className="relative group">
-              <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
+        <header className="px-4 lg:px-6 h-14 flex items-center justify-center">
+          <nav className=" flex gap-4 sm:gap-6">
+            <div className="relative group items-center justify-center">
+              <button style={{ backgroundColor: "#002E5D", color: "white" }} className="flex items-center gap-2">
                 Programs
               </button>
               <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
@@ -1180,7 +1176,7 @@ export function ByuCsClasses() {
             </div>
 
             <div className="relative group">
-              <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
+              <button style={{ backgroundColor: "#002E5D", color: "white" }} className="flex items-center gap-2">
                 Classes & Emphases
               </button>
               <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
@@ -1193,7 +1189,7 @@ export function ByuCsClasses() {
               </div>
             </div>
             <div className="relative group">
-              <button style={{ backgroundColor: "lightgrey" }} className="flex items-center gap-2">
+              <button style={{ backgroundColor: "#002E5D", color: "white" }} className="flex items-center gap-2">
                 Faculty & Research
               </button>
               <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-md">
@@ -1208,7 +1204,7 @@ export function ByuCsClasses() {
           </nav>
         </header>
         <main className="flex-1">
-          <section className="w-full py-12 md:py-24 lg:py-32">
+          <section className="w-full py-12">
             <div className="container px-4 md:px-6">
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
