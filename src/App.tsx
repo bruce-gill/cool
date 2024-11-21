@@ -1,13 +1,13 @@
 
 import './App.css'
-import { ByuCsClasses } from './components/byu-cs-classes'
+import ProductListing from './components/product-listing'
 
 function App() {
 
 
   return (
     <>
-      <ByuCsClasses />
+      <ProductListing />
     </>
   )
 }
