@@ -9,5 +9,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'), // Adjust this if your base directory is different
     },
   },
-  base: '/Information-architecture/',
+  base: '/cool/',
 });
