@@ -4,6 +4,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ComparisonModal } from './comparison-modal'
+
 import image1 from '@/assets/images/image1.jpg'
 import image2 from '@/assets/images/image2.jpg'
 import image3 from '@/assets/images/image3.jpg'
@@ -59,6 +61,8 @@ export default function ProductListing() {
     maxPrice: '',
     prioritize: 'Top Speed',
   })
+  const [comparisonList, setComparisonList] = useState<typeof products>([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
@@ -68,92 +72,143 @@ export default function ProductListing() {
     }))
   }
 
+  const handleAddToComparison = (product: typeof products[0]) => {
+    if (comparisonList.length < 3 && !comparisonList.some(item => item.id === product.id)) {
+      setComparisonList(prev => [...prev, product])
+    }
+  }
+
+  const handleRemoveFromComparison = (productId: number) => {
+    setComparisonList(prev => prev.filter(item => item.id !== productId))
+  }
+
+  const handleCompare = () => {
+    if (comparisonList.length > 1) {
+      setIsModalOpen(true)
+    }
+  }
+
   return (
-    <div className="flex gap-4 p-4">
-      <aside className="w-64 bg-gray-200 p-4 rounded-lg">
-        <h2 className="text-lg font-bold mb-4">Filters</h2>
-        <div className="mb-4">
+    <div className="flex min-h-screen">
+      <aside className="w-60 bg-gray-50 p-4 sticky top-0 h-screen overflow-y-auto">
+        <div className="space-y-4">
           <Input
             placeholder="Search"
             value={filters.search}
             onChange={handleFilterChange}
             name="search"
-            className="mb-2"
           />
-        </div>
-        <div className="mb-4">
-          <h3 className="font-semibold">Engine Type</h3>
-          <div className="flex flex-col">
-            <label className="flex items-center">
-              <Checkbox
-                checked={filters.engineType.electric}
-                name="electric"
-              />
-              Electric
-            </label>
-            <label className="flex items-center">
-              <Checkbox
-                checked={filters.engineType.gas}
-                name="gas"
-              />
-              Gas
-            </label>
-            <label className="flex items-center">
-              <Checkbox
-                checked={filters.engineType.none}
-                name="none"
-              />
-              None
-            </label>
+          <div>
+            <h3 className="text-sm font-medium mb-2">Engine Type</h3>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2">
+                <Checkbox
+                  checked={filters.engineType.electric}
+                  onCheckedChange={(checked) => 
+                    setFilters(prev => ({...prev, engineType: {...prev.engineType, electric: checked as boolean}}))
+                  }
+                  name="electric"
+                />
+                <span className="text-sm">Electric</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <Checkbox
+                  checked={filters.engineType.gas}
+                  onCheckedChange={(checked) => 
+                    setFilters(prev => ({...prev, engineType: {...prev.engineType, gas: checked as boolean}}))
+                  }
+                  name="gas"
+                />
+                <span className="text-sm">Gas</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <Checkbox
+                  checked={filters.engineType.none}
+                  onCheckedChange={(checked) => 
+                    setFilters(prev => ({...prev, engineType: {...prev.engineType, none: checked as boolean}}))
+                  }
+                  name="none"
+                />
+                <span className="text-sm">None</span>
+              </label>
+            </div>
           </div>
+          <div>
+            <h3 className="text-sm font-medium mb-2">Price</h3>
+            <div className="space-y-2">
+              <Input
+                placeholder="Min Price"
+                value={filters.minPrice}
+                onChange={handleFilterChange}
+                name="minPrice"
+              />
+              <Input
+                placeholder="Max Price"
+                value={filters.maxPrice}
+                onChange={handleFilterChange}
+                name="maxPrice"
+              />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium mb-2">Prioritize</h3>
+            <Select value={filters.prioritize} onValueChange={(value) => setFilters((prev) => ({ ...prev, prioritize: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Top Speed" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Top Speed">Top Speed</SelectItem>
+                <SelectItem value="Price">Price</SelectItem>
+                <SelectItem value="Utility">Utility</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <Button variant="secondary" className="w-full">Clear Filters</Button>
         </div>
-        <div className="mb-4">
-          <h3 className="font-semibold">Price</h3>
-          <Input
-            placeholder="Min Price"
-            value={filters.minPrice}
-            onChange={handleFilterChange}
-            name="minPrice"
-            className="mb-2"
-          />
-          <Input
-            placeholder="Max Price"
-            value={filters.maxPrice}
-            onChange={handleFilterChange}
-            name="maxPrice"
-          />
-        </div>
-        <div className="mb-4">
-          <h3 className="font-semibold">Prioritize</h3>
-          <Select value={filters.prioritize} onValueChange={(value) => setFilters((prev) => ({ ...prev, prioritize: value }))}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Top Speed">Top Speed</SelectItem>
-              <SelectItem value="Price">Price</SelectItem>
-              <SelectItem value="Utility">Utility</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button className="w-full">Clear Filters</Button>
       </aside>
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <Card key={product.id} className="p-4">
-            <CardContent>
-              <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-              <img src={product.image} alt="Product" className="w-full h-40 object-cover mb-2" />
-              <div className="text-sm">
-                <p>Top Speed: {product.topSpeed}</p>
-                <p>Motor Type: {product.motorType}</p>
-                <p>Price: {product.price}</p>
-                <p>Utility: {product.utility}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <main className="flex-1 p-4">
+        <div className="flex justify-between items-center mb-6">
+          <Button onClick={handleCompare} disabled={comparisonList.length < 2}>
+            Compare ({comparisonList.length}/3)
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <Card key={product.id} className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="relative">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full aspect-[4/3] object-cover border-b"
+                  />
+                  <div className="absolute inset-0 bg-black/10"></div>
+                </div>
+                <div className="p-4 space-y-1">
+                  <h3 className="font-medium">{product.name}</h3>
+                  <p className="text-sm">Top Speed: {product.topSpeed}</p>
+                  <p className="text-sm">Motor Type: {product.motorType}</p>
+                  <p className="text-sm">Price: {product.price}</p>
+                  <p className="text-sm">Utility: {product.utility}</p>
+                  <Button 
+                    onClick={() => handleAddToComparison(product)}
+                    disabled={comparisonList.length >= 3 || comparisonList.some(item => item.id === product.id)}
+                    className="mt-2"
+                  >
+                    Add to Compare
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </main>
+      <ComparisonModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        products={comparisonList}
+        onRemove={handleRemoveFromComparison}
+      />
     </div>
   )
 }
